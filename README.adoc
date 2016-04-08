@@ -61,3 +61,7 @@ docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <2>
 | SERVER_ID
 | A unique https://docs.go.cd/current/configuration/configuration_reference.html[server id] (will be generated if not set).
 |===
+
+== Agents
+
+The go-cd server needs one or more agents for executing jobs. Look for the https://github.com/SoftwareCraftsman/docker-go-cdagent[agent Docker image].
