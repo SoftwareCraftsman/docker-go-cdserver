@@ -1,0 +1,63 @@
+= go continuous delivery server
+
+
+== Setting up a Docker container
+.Build
+
+[source,shell]
+---
+docker build -t softwarecraftsmen/go-cdserver .
+---
+
+.Create network
+
+The go continuous delivery server requires a network for allowing its agents to join.
+
+[source,shell]
+---
+docker network create go-cd <1>
+---
+
+<1> Creates a network of type bridge
+
+== Starting a docker container
+
+.Run go with defaults
+
+This runs go with defaults for the server id and agent key.
+
+
+[source,shell]
+---
+docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd softwarecraftsmen/go-cdserver <1>
+---
+
+<1> Container is added to the network `go-cd`
+
+.Run go with SERVER_ID
+
+[source,shell]
+---
+export SERVER_ID=`uuidgen` <1>
+docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <2>
+  -e SERVER_ID=$SERVER_ID <3>
+  -p 8153:8153 \
+  -p 8154:8154 \
+  softwarecraftsmen/go-cdserver
+
+---
+
+<1> Generate a UUID (Mac OSX!)
+<2> Container is attached to the network `go-cd`
+<3> Assign a new server id
+
+=== Environment Variables
+
+[cols="2*"]
+|===
+| AGENT_KEY
+| The key used by agents to https://docs.go.cd/current/advanced_usage/agent_auto_register.html[auto-register]
+
+| SERVER_ID
+| A unique https://docs.go.cd/current/configuration/configuration_reference.html[server id] (will be generated if not set).
+|===
