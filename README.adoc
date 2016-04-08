@@ -5,18 +5,18 @@
 .Build
 
 [source,shell]
----
+----
 docker build -t softwarecraftsmen/go-cdserver .
----
+----
 
 .Create network
 
 The go continuous delivery server requires a network for allowing its agents to join.
 
 [source,shell]
----
+----
 docker network create go-cd <1>
----
+----
 
 <1> Creates a network of type bridge
 
@@ -28,16 +28,16 @@ This runs go with defaults for the server id and agent key.
 
 
 [source,shell]
----
+----
 docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd softwarecraftsmen/go-cdserver <1>
----
+----
 
 <1> Container is added to the network `go-cd`
 
 .Run go with SERVER_ID
 
 [source,shell]
----
+----
 export SERVER_ID=`uuidgen` <1>
 docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <2>
   -e SERVER_ID=$SERVER_ID <3>
@@ -45,7 +45,7 @@ docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <2>
   -p 8154:8154 \
   softwarecraftsmen/go-cdserver
 
----
+----
 
 <1> Generate a UUID (Mac OSX!)
 <2> Container is attached to the network `go-cd`
