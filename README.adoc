@@ -29,27 +29,33 @@ This runs go with defaults for the server id and agent key.
 
 [source,shell]
 ----
-docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd softwarecraftsmen/go-cdserver <1>
+docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <1>
+  -p 8153:8153 \ <2>
+  -p 8154:8154 \ <3>
+  softwarecraftsmen/go-cdserver
 ----
 
 <1> Container is added to the network `go-cd`
+<2> Expose HTTP port
+<3> Expose HTTPS port
 
 .Run go with SERVER_ID
 
 [source,shell]
 ----
 export SERVER_ID=`uuidgen` <1>
-docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \ <2>
-  -e SERVER_ID=$SERVER_ID <3>
+docker run -tid --name go-cdserver --hostname go-cdserver --net go-cd \
+  -e SERVER_ID=$SERVER_ID <2>
   -p 8153:8153 \
   -p 8154:8154 \
   softwarecraftsmen/go-cdserver
 
 ----
 
-<1> Generate a UUID (Mac OSX!)
-<2> Container is attached to the network `go-cd`
-<3> Assign a new server id
+<1> Generate a UUID (Mac OSX only!)
+<2> Assign a new server id
+
+NOTE: Assigning a server id is not necessary as a server id is automatically generated when it is not present!
 
 === Environment Variables
 
