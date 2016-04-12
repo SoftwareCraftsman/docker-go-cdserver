@@ -3,7 +3,7 @@ MAINTAINER Software Craftsmen GmbH und CoKG <office@software-craftsmen.at>
 
 # The go.cd package pulls in openjdk-7
 RUN apt-get update && \
-    apt-get install -y wget openssh-client git && \
+    apt-get install -y openssh-client git && \
     echo "deb https://download.go.cd /" | sudo tee /etc/apt/sources.list.d/gocd.list && \
     apt-get install -y  apt-transport-https && \
     wget -O - https://download.go.cd/GOCD-GPG-KEY.asc | sudo apt-key add - && \
