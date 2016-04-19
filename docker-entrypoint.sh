@@ -26,6 +26,11 @@ if [ ! -f "/etc/go/cruise-config.xml" ] ; then
   [[ -n "$SERVER_ID" ]] && sed -i -e 's/serverId="[^"]*" *//' -e 's#\(<server\)\(.*artifactsdir.*\)#\1 serverId="'$SERVER_ID'"\2#' /etc/go/cruise-config.xml
 fi
 
+if [ ! -f "/etc/go/cipher.xml" ] ; then
+  # Setup cipher for encryption.
+  [[ -n "$CIPHER" ]] && echo $CIPHER > /etc/go/cipher
+fi
+
 echo "Starting go-server with agent key $AGENT_KEY"
 
 exec /etc/init.d/go-server start
