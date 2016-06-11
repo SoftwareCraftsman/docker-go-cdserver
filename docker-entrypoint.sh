@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+mkdir -p /var/lib/go-server/addons /var/log/go-server /etc/go /go-addons $ARTIFACTS_LOCATION
+chown -R go:go /var/lib/go-server /var/log/go-server /etc/go /go-addons /var/go cruise-config.xml $ARTIFACTS_LOCATION
+
 if [ ! -f "/var/go/.ssh/id_rsa" ] ; then
   mkdir -p /var/go/.ssh
   ssh-keygen -C "docker-go-cdserver" -N '' -f /var/go/.ssh/id_rsa
@@ -31,6 +35,8 @@ if [ ! -f "/etc/go/cipher.xml" ] ; then
   [[ -n "$CIPHER" ]] && echo $CIPHER > /etc/go/cipher
 fi
 
+chown -R go:go /etc/go/
+
 echo "Starting go-server with agent key $AGENT_KEY"
 
-exec /etc/init.d/go-server start
+exec gosu go /etc/init.d/go-server start
